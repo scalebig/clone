@@ -49,12 +49,13 @@ try {
  *    should be cloned as well. Non-enumerable properties on the prototype
  *    chain will be ignored. (optional - false by default)
 */
-function clone(parent, circular, depth, prototype, includeNonEnumerable) {
+function clone(parent, circular, depth, prototype, includeNonEnumerable, nodeProcessor) {
   if (typeof circular === 'object') {
     depth = circular.depth;
     prototype = circular.prototype;
     includeNonEnumerable = circular.includeNonEnumerable;
     circular = circular.circular;
+    nodeProcessor = circular.nodeProcessor;
   }
   // maintain two arrays for circular references, where corresponding parents
   // and children have the same index
@@ -71,6 +72,10 @@ function clone(parent, circular, depth, prototype, includeNonEnumerable) {
 
   // recurse this function so we don't reset allParents and allChildren
   function _clone(parent, depth) {
+    if(nodeProcessor) {
+      parent = nodeProcessor(parent)
+    }
+
     // cloning null always returns null
     if (parent === null)
       return null;
