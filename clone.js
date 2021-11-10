@@ -54,8 +54,8 @@ function clone(parent, circular, depth, prototype, includeNonEnumerable, nodePro
     depth = circular.depth;
     prototype = circular.prototype;
     includeNonEnumerable = circular.includeNonEnumerable;
-    circular = circular.circular;
     nodeProcessor = circular?.nodeProcessor;
+    circular = circular.circular;
   }
   // maintain two arrays for circular references, where corresponding parents
   // and children have the same index
